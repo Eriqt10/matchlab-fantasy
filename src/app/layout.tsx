@@ -49,8 +49,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-brand-cream-dark">
+        {/* Navigation - Navy header */}
+        <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-navy/95 backdrop-blur-md border-b border-brand-navy-light">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Logo */}
@@ -62,16 +62,16 @@ export default function RootLayout({
                   height={32}
                   className="w-8 h-8"
                 />
-                <span className="font-bold text-brand-navy">MatchLab Fantasy</span>
-                <span className="beta-badge">BETA</span>
+                <span className="font-bold text-brand-cream">MatchLab Fantasy</span>
+                <span className="bg-brand-primary/20 text-brand-primary px-2.5 py-0.5 rounded-full text-xs font-semibold">BETA</span>
               </a>
 
               {/* Nav Links */}
               <div className="hidden md:flex items-center gap-6">
-                <a href="/edge-report" className="text-sm font-medium text-text-secondary hover:text-brand-primary transition">
+                <a href="/edge-report" className="text-sm font-medium text-brand-cream/70 hover:text-brand-primary transition">
                   Edge Report
                 </a>
-                <a href="/track-record" className="text-sm font-medium text-text-secondary hover:text-brand-primary transition">
+                <a href="/track-record" className="text-sm font-medium text-brand-cream/70 hover:text-brand-primary transition">
                   Track Record
                 </a>
                 <a
