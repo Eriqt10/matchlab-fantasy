@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   MATCHLAB FANTASY - GLOBAL STYLES
+   FinTech-inspired: Navy + Teal + Cream
+   ============================================ */
+
+@layer base {
+  :root {
+    /* Light mode - cream-tinted whites */
+    --background: 255 255 255;
+    --foreground: 6 26 42;           /* Navy */
+    --muted: 241 240 235;            /* Cream */
+    --muted-foreground: 74 85 104;
+    --border: 229 228 223;           /* Cream-dark */
+    --accent: 30 201 182;            /* Teal */
+  }
+
+  .dark {
+    /* Dark mode - navy backgrounds */
+    --background: 6 26 42;           /* Navy */
+    --foreground: 241 240 235;       /* Cream */
+    --muted: 13 46 71;               /* Navy-light */
+    --muted-foreground: 148 163 184;
+    --border: 21 61 94;              /* Navy-lighter */
+  }
+
+  * {
+    @apply border-brand-cream-dark;
+  }
+
+  body {
+    @apply bg-white text-brand-navy antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Beta Badge */
+  .beta-badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+    @apply bg-brand-primary/15 text-brand-primary;
+  }
+
+  /* Confidence Badges - colorblind friendly */
+  .confidence-elite {
+    @apply bg-confidence-elite/15 text-confidence-elite font-semibold px-2 py-1 rounded;
+  }
+  .confidence-high {
+    @apply bg-confidence-high/15 text-confidence-high font-semibold px-2 py-1 rounded;
+  }
+  .confidence-medium {
+    @apply bg-confidence-medium/15 text-confidence-medium font-semibold px-2 py-1 rounded;
+  }
+  .confidence-low {
+    @apply bg-confidence-low/15 text-confidence-low font-medium px-2 py-1 rounded;
+  }
+
+  /* Data Tables - fintech style */
+  .data-table {
+    @apply w-full text-sm;
+  }
+  .data-table th {
+    @apply px-4 py-3 text-left font-semibold text-text-secondary bg-surface-secondary;
+    @apply border-b border-brand-cream-dark;
+  }
+  .data-table td {
+    @apply px-4 py-3 border-b border-brand-cream-dark/50;
+  }
+  .data-table tr:hover td {
+    @apply bg-surface-secondary/50;
+  }
+  .data-table .mono {
+    @apply font-mono text-brand-navy;
+  }
+
+  /* Cards - clean fintech look */
+  .card {
+    @apply bg-white rounded-xl border border-brand-cream-dark shadow-fintech;
+  }
+  .card-header {
+    @apply px-6 py-4 border-b border-brand-cream-dark/50 bg-surface-secondary/30;
+  }
+  .card-body {
+    @apply p-6;
+  }
+
+  /* Dark card variant (for hero sections) */
+  .card-dark {
+    @apply bg-brand-navy rounded-xl border border-brand-navy-light;
+  }
+  .card-dark .card-header {
+    @apply border-brand-navy-light text-brand-cream;
+  }
+
+  /* Section Headers */
+  .section-header {
+    @apply flex items-center justify-between mb-6;
+  }
+  .section-title {
+    @apply text-xl font-bold text-brand-navy;
+  }
+  .section-subtitle {
+    @apply text-sm text-text-muted;
+  }
+
+  /* Buzz Status Badges */
+  .buzz-positive {
+    @apply bg-success/15 text-success font-medium px-2 py-1 rounded;
+  }
+  .buzz-neutral {
+    @apply bg-chart-neutral/15 text-chart-neutral font-medium px-2 py-1 rounded;
+  }
+  .buzz-caution {
+    @apply bg-warning/15 text-warning font-medium px-2 py-1 rounded;
+  }
+  .buzz-red-flag {
+    @apply bg-danger/15 text-danger font-medium px-2 py-1 rounded;
+  }
+
+  /* Buttons - fintech style */
+  .btn-primary {
+    @apply px-6 py-3 bg-brand-primary text-white font-semibold rounded-lg;
+    @apply hover:bg-brand-primary-dark transition-colors;
+    @apply shadow-fintech hover:shadow-fintech-lg;
+  }
+  .btn-secondary {
+    @apply px-6 py-3 bg-white text-brand-navy font-semibold rounded-lg;
+    @apply border border-brand-cream-dark hover:border-brand-primary hover:text-brand-primary;
+    @apply transition-colors;
+  }
+  .btn-dark {
+    @apply px-6 py-3 bg-brand-navy text-brand-cream font-semibold rounded-lg;
+    @apply hover:bg-brand-navy-light transition-colors;
+  }
+
+  /* Stats/Metrics display */
+  .stat-value {
+    @apply text-3xl font-bold text-brand-navy font-mono;
+  }
+  .stat-label {
+    @apply text-sm text-text-muted;
+  }
+  .stat-positive {
+    @apply text-chart-positive;
+  }
+  .stat-negative {
+    @apply text-chart-negative;
+  }
+}
+
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.brand.cream-dark') transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: theme('colors.brand.cream-dark');
+    border-radius: 3px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: theme('colors.brand.primary');
+  }
+}
