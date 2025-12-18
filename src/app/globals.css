@@ -151,6 +151,15 @@
   }
 }
 
+/* Background Patterns */
+@layer utilities {
+  /* Topography pattern - use with navy backgrounds */
+  .bg-topography {
+    background-image: url('/patterns/topography.svg');
+    background-repeat: repeat;
+  }
+}
+
 /* Custom scrollbar */
 @layer utilities {
   .scrollbar-thin {
