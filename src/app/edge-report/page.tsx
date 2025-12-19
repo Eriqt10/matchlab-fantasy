@@ -130,8 +130,18 @@ export default function EdgeReportPage() {
     setError(null)
 
     try {
-      // Fetch from static JSON file directly (faster than API route for static data)
-      const response = await fetch('/data/edge-report.json')
+      // Try fetching from GitHub raw URL first (auto-updated by GitHub Actions)
+      // Falls back to local static file if GitHub fetch fails
+      const githubUrl = 'https://raw.githubusercontent.com/Eriqt10/MatchLabSports/main/reports/edge-report.json'
+      const localUrl = '/data/edge-report.json'
+
+      let response = await fetch(githubUrl, { cache: 'no-store' })
+
+      // Fallback to local if GitHub fails
+      if (!response.ok) {
+        console.log('GitHub fetch failed, trying local fallback')
+        response = await fetch(localUrl)
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`)
