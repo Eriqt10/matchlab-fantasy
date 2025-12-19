@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { RefreshCw, AlertTriangle, TrendingUp, Shield, Clock, Loader2 } from 'lucide-react'
+import { RefreshCw, AlertTriangle, TrendingUp, Shield, Clock, Loader2, UserX, Zap } from 'lucide-react'
 
 // Types matching the API response
 interface CaptainPick {
@@ -21,6 +21,19 @@ interface CaptainPick {
   signals: string[]
   odds_display: string
   prob_display: string
+  // Ownership fields
+  ownership: number | null
+  ownership_display: string
+  differential_score: number | null
+  is_differential: boolean
+  form: number | null
+  price: number | null
+  // Availability fields
+  status: string
+  status_code: string | null
+  chance_of_playing: number | null
+  news: string | null
+  is_available: boolean
 }
 
 interface CleanSheetPick {
@@ -50,6 +63,35 @@ interface BuzzAlert {
   signals: string[]
 }
 
+interface AvailabilityWarning {
+  player: string
+  team: string
+  status: string
+  chance_of_playing: number | null
+  news: string | null
+  ownership: number
+  concern: string
+}
+
+interface TemplateComparison {
+  template: {
+    player: string
+    team: string
+    ownership: number | null
+    goal_prob: number
+    expected_pts: number
+  }
+  best_differential: {
+    player: string
+    team: string
+    ownership: number | null
+    goal_prob: number
+    expected_pts: number
+    differential_score: number
+  }
+  analysis: string
+}
+
 interface EdgeReportData {
   meta: {
     generated_at: string
@@ -61,8 +103,11 @@ interface EdgeReportData {
     error?: string
   }
   captain_picks: CaptainPick[]
+  differentials: CaptainPick[]
   clean_sheets: CleanSheetPick[]
   buzz_alerts: BuzzAlert[]
+  availability_warnings: AvailabilityWarning[]
+  template_comparison: TemplateComparison | Record<string, never>
   errors: string[]
 }
 
@@ -101,6 +146,35 @@ function BuzzBadge({ status }: { status: string }) {
   return (
     <span className={`px-2 py-1 rounded text-xs font-medium ${classes}`}>
       {displayStatus}
+    </span>
+  )
+}
+
+function AvailabilityBadge({ status, chance }: { status: string; chance: number | null }) {
+  if (status === 'available' && (chance === null || chance >= 75)) {
+    return null // Don't show badge for available players
+  }
+
+  const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
+    unavailable: { bg: 'bg-red-100', text: 'text-red-800', label: 'OUT' },
+    injured: { bg: 'bg-red-100', text: 'text-red-800', label: 'INJ' },
+    suspended: { bg: 'bg-red-100', text: 'text-red-800', label: 'SUS' },
+    doubtful: { bg: 'bg-amber-100', text: 'text-amber-800', label: chance ? `${chance}%` : 'DTF' },
+  }
+
+  const config = statusConfig[status] || { bg: 'bg-gray-100', text: 'text-gray-600', label: '?' }
+
+  return (
+    <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${config.bg} ${config.text}`}>
+      {config.label}
+    </span>
+  )
+}
+
+function DifferentialBadge() {
+  return (
+    <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-purple-100 text-purple-800">
+      DIFF
     </span>
   )
 }
@@ -235,6 +309,86 @@ export default function EdgeReportPage() {
         {/* Data Display */}
         {data && !isLoading && (
           <>
+            {/* Availability Warnings - Critical alerts at top */}
+            {data.availability_warnings && data.availability_warnings.length > 0 && (
+              <div className="card mb-8 border-red-200 bg-red-50">
+                <div className="card-header flex items-center gap-2 bg-red-100">
+                  <UserX className="w-5 h-5 text-red-600" />
+                  <h2 className="font-semibold text-red-800">Availability Warnings</h2>
+                  <span className="text-xs text-red-600 ml-auto">Check before deadline!</span>
+                </div>
+                <div className="card-body space-y-3">
+                  {data.availability_warnings.map((warning, i) => (
+                    <div key={i} className="flex items-start gap-3 p-3 bg-white rounded-lg border border-red-100">
+                      <AvailabilityBadge status={warning.status} chance={warning.chance_of_playing} />
+                      <div className="flex-1">
+                        <p className="font-medium text-brand-navy">
+                          {warning.player}
+                          <span className="text-text-secondary font-normal ml-2">({warning.team})</span>
+                          <span className="text-text-muted text-xs ml-2">{warning.ownership}% owned</span>
+                        </p>
+                        {warning.news && (
+                          <p className="text-sm text-text-secondary mt-1">
+                            {warning.news}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Template vs Differential Comparison */}
+            {data.template_comparison && 'template' in data.template_comparison && (
+              <div className="card mb-8 border-purple-200">
+                <div className="card-header flex items-center gap-2 bg-purple-50">
+                  <Zap className="w-5 h-5 text-purple-600" />
+                  <h2 className="font-semibold text-purple-800">Template vs Differential</h2>
+                </div>
+                <div className="card-body">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {/* Template Pick */}
+                    <div className="p-4 bg-gray-50 rounded-lg">
+                      <p className="text-xs text-text-muted uppercase tracking-wide mb-2">Template Captain</p>
+                      <p className="text-lg font-semibold text-brand-navy">
+                        {data.template_comparison.template.player}
+                      </p>
+                      <p className="text-sm text-text-secondary">{data.template_comparison.template.team}</p>
+                      <div className="mt-3 flex gap-4 text-sm">
+                        <span className="text-text-muted">
+                          Own: <span className="font-mono text-brand-navy">{data.template_comparison.template.ownership?.toFixed(1)}%</span>
+                        </span>
+                        <span className="text-text-muted">
+                          P(Goal): <span className="font-mono text-brand-navy">{(data.template_comparison.template.goal_prob * 100).toFixed(1)}%</span>
+                        </span>
+                      </div>
+                    </div>
+                    {/* Differential Pick */}
+                    <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
+                      <p className="text-xs text-purple-600 uppercase tracking-wide mb-2">Best Differential</p>
+                      <p className="text-lg font-semibold text-purple-800">
+                        {data.template_comparison.best_differential.player}
+                        <DifferentialBadge />
+                      </p>
+                      <p className="text-sm text-text-secondary">{data.template_comparison.best_differential.team}</p>
+                      <div className="mt-3 flex gap-4 text-sm">
+                        <span className="text-text-muted">
+                          Own: <span className="font-mono text-purple-700">{data.template_comparison.best_differential.ownership?.toFixed(1)}%</span>
+                        </span>
+                        <span className="text-text-muted">
+                          P(Goal): <span className="font-mono text-purple-700">{(data.template_comparison.best_differential.goal_prob * 100).toFixed(1)}%</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm text-text-secondary italic">
+                    {data.template_comparison.analysis}
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Buzz Alerts */}
             {data.buzz_alerts && data.buzz_alerts.length > 0 && (
               <div className="card mb-8">
@@ -290,7 +444,7 @@ export default function EdgeReportPage() {
                         <th>#</th>
                         <th>Player</th>
                         <th>Match</th>
-                        <th>Odds</th>
+                        <th>Own%</th>
                         <th>P(Goal)</th>
                         <th>xPts</th>
                         <th>Conf</th>
@@ -298,19 +452,28 @@ export default function EdgeReportPage() {
                     </thead>
                     <tbody>
                       {data.captain_picks.map((pick) => (
-                        <tr key={`${pick.rank}-${pick.player}`}>
+                        <tr
+                          key={`${pick.rank}-${pick.player}`}
+                          className={!pick.is_available ? 'opacity-50' : ''}
+                        >
                           <td className="font-mono text-text-muted">{pick.rank}</td>
                           <td>
-                            <div>
-                              <span className="font-medium text-brand-navy">{pick.player}</span>
-                              <span className="text-xs text-text-muted ml-2">{pick.position}</span>
+                            <div className="flex items-center gap-1.5">
+                              <span className={`font-medium ${!pick.is_available ? 'text-text-muted line-through' : 'text-brand-navy'}`}>
+                                {pick.player}
+                              </span>
+                              <span className="text-xs text-text-muted">{pick.position}</span>
+                              {pick.is_differential && <DifferentialBadge />}
+                              <AvailabilityBadge status={pick.status} chance={pick.chance_of_playing} />
                             </div>
                             <span className="text-xs text-text-secondary">{pick.team}</span>
                           </td>
                           <td className="text-sm text-text-secondary">
                             {pick.opponent} {pick.is_home ? '(H)' : '(A)'}
                           </td>
-                          <td className="font-mono">{pick.best_odds.toFixed(2)}</td>
+                          <td className="font-mono text-sm">
+                            {pick.ownership !== null ? `${pick.ownership.toFixed(1)}%` : 'N/A'}
+                          </td>
                           <td className="font-mono">{(pick.goal_prob * 100).toFixed(1)}%</td>
                           <td className="font-mono font-semibold text-brand-navy">{pick.expected_pts.toFixed(2)}</td>
                           <td><ConfidenceBadge level={pick.confidence} /></td>
