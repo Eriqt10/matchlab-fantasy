@@ -243,8 +243,37 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Credibility */}
+      {/* Founder Story */}
       <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-bold text-brand-navy mb-8 text-center">
+            Why We Built This
+          </h2>
+
+          <div className="bg-surface-secondary rounded-xl p-8 border border-brand-cream-dark">
+            <blockquote className="text-lg text-text-secondary italic mb-6">
+              "MatchLab Fantasy was built by a data scientist who's never played FPL.
+              No favorite players, no tribal loyalties—just rigorous probability analysis
+              applied to a game where emotions run high and edges hide in plain sight."
+            </blockquote>
+
+            <p className="text-text-secondary mb-4">
+              When you don't have a favorite team, you see the data differently. There's
+              no temptation to captain your club's striker when the odds say otherwise.
+              No reluctance to back a rival's defender for a clean sheet.
+            </p>
+
+            <p className="text-text-secondary">
+              This objectivity is our edge—and now it's yours. Every recommendation
+              comes from probability analysis, not punditry. We don't have opinions.
+              We have numbers.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Credibility */}
+      <section className="py-16 bg-surface-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl font-bold text-brand-navy mb-8">
             Built by Quants, Not Pundits

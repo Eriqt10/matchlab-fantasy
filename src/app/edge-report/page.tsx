@@ -111,11 +111,10 @@ interface EdgeReportData {
   errors: string[]
 }
 
+// Only show gameweeks with available data
 const GAMEWEEKS = [
   { id: 'gw17', label: 'GW17 (Dec 20-22)' },
   { id: 'gw18', label: 'GW18 (Dec 26-28)' },
-  { id: 'gw19', label: 'GW19 (Dec 29)' },
-  { id: 'gw20', label: 'GW20 (Jan 4-5)' },
 ]
 
 function ConfidenceBadge({ level }: { level: string }) {
@@ -194,7 +193,7 @@ function formatTimeAgo(isoString: string): string {
 }
 
 export default function EdgeReportPage() {
-  const [selectedGW, setSelectedGW] = useState('gw17')
+  const [selectedGW, setSelectedGW] = useState('gw18')
   const [data, setData] = useState<EdgeReportData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -204,10 +203,11 @@ export default function EdgeReportPage() {
     setError(null)
 
     try {
+      // Load gameweek-specific JSON files
       // Try fetching from GitHub raw URL first (auto-updated by GitHub Actions)
       // Falls back to local static file if GitHub fetch fails
-      const githubUrl = 'https://raw.githubusercontent.com/Eriqt10/MatchLabSports/main/reports/edge-report.json'
-      const localUrl = '/data/edge-report.json'
+      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json`
+      const localUrl = `/data/edge-report-${selectedGW}.json`
 
       let response = await fetch(githubUrl, { cache: 'no-store' })
 
@@ -225,7 +225,7 @@ export default function EdgeReportPage() {
       setData(jsonData)
     } catch (err) {
       console.error('Failed to fetch edge report:', err)
-      setError('Failed to load data. Please try again.')
+      setError(`Failed to load data for ${selectedGW.toUpperCase()}. Data may not be available yet.`)
     } finally {
       setIsLoading(false)
     }
@@ -345,46 +345,93 @@ export default function EdgeReportPage() {
                 <div className="card-header flex items-center gap-2 bg-purple-50">
                   <Zap className="w-5 h-5 text-purple-600" />
                   <h2 className="font-semibold text-purple-800">Template vs Differential</h2>
+                  <span className="text-xs text-purple-600 ml-auto">Risk vs Reward</span>
                 </div>
                 <div className="card-body">
                   <div className="grid md:grid-cols-2 gap-6">
                     {/* Template Pick */}
-                    <div className="p-4 bg-gray-50 rounded-lg">
-                      <p className="text-xs text-text-muted uppercase tracking-wide mb-2">Template Captain</p>
+                    <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <p className="text-xs text-text-muted uppercase tracking-wide mb-2">Safe Pick</p>
                       <p className="text-lg font-semibold text-brand-navy">
                         {data.template_comparison.template.player}
                       </p>
-                      <p className="text-sm text-text-secondary">{data.template_comparison.template.team}</p>
-                      <div className="mt-3 flex gap-4 text-sm">
-                        <span className="text-text-muted">
-                          Own: <span className="font-mono text-brand-navy">{data.template_comparison.template.ownership?.toFixed(1)}%</span>
-                        </span>
-                        <span className="text-text-muted">
-                          P(Goal): <span className="font-mono text-brand-navy">{(data.template_comparison.template.goal_prob * 100).toFixed(1)}%</span>
-                        </span>
+                      <p className="text-sm text-text-secondary mb-4">{data.template_comparison.template.team}</p>
+
+                      {/* Ownership Bar */}
+                      <div className="mb-3">
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-text-muted">Ownership</span>
+                          <span className="font-mono font-semibold text-amber-600">{data.template_comparison.template.ownership?.toFixed(1)}%</span>
+                        </div>
+                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-amber-500 rounded-full"
+                            style={{ width: `${Math.min(data.template_comparison.template.ownership || 0, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Goal Probability Bar */}
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-text-muted">Goal Probability</span>
+                          <span className="font-mono font-semibold text-brand-navy">{(data.template_comparison.template.goal_prob * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-brand-primary rounded-full"
+                            style={{ width: `${data.template_comparison.template.goal_prob * 100}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
+
                     {/* Differential Pick */}
-                    <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
-                      <p className="text-xs text-purple-600 uppercase tracking-wide mb-2">Best Differential</p>
-                      <p className="text-lg font-semibold text-purple-800">
+                    <div className="p-4 bg-purple-50 rounded-lg border-2 border-purple-300">
+                      <p className="text-xs text-purple-600 uppercase tracking-wide mb-2">Differential Pick</p>
+                      <p className="text-lg font-semibold text-purple-800 flex items-center gap-2">
                         {data.template_comparison.best_differential.player}
                         <DifferentialBadge />
                       </p>
-                      <p className="text-sm text-text-secondary">{data.template_comparison.best_differential.team}</p>
-                      <div className="mt-3 flex gap-4 text-sm">
-                        <span className="text-text-muted">
-                          Own: <span className="font-mono text-purple-700">{data.template_comparison.best_differential.ownership?.toFixed(1)}%</span>
-                        </span>
-                        <span className="text-text-muted">
-                          P(Goal): <span className="font-mono text-purple-700">{(data.template_comparison.best_differential.goal_prob * 100).toFixed(1)}%</span>
-                        </span>
+                      <p className="text-sm text-text-secondary mb-4">{data.template_comparison.best_differential.team}</p>
+
+                      {/* Ownership Bar */}
+                      <div className="mb-3">
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-text-muted">Ownership</span>
+                          <span className="font-mono font-semibold text-green-600">{data.template_comparison.best_differential.ownership?.toFixed(1)}%</span>
+                        </div>
+                        <div className="h-2 bg-purple-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-green-500 rounded-full"
+                            style={{ width: `${Math.min(data.template_comparison.best_differential.ownership || 0, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Goal Probability Bar */}
+                      <div>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-text-muted">Goal Probability</span>
+                          <span className="font-mono font-semibold text-purple-700">{(data.template_comparison.best_differential.goal_prob * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="h-2 bg-purple-100 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-purple-500 rounded-full"
+                            style={{ width: `${data.template_comparison.best_differential.goal_prob * 100}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <p className="mt-4 text-sm text-text-secondary italic">
-                    {data.template_comparison.analysis}
-                  </p>
+
+                  {/* Analysis */}
+                  <div className="mt-4 p-3 bg-purple-50 rounded-lg border border-purple-100">
+                    <p className="text-sm text-purple-800">
+                      <span className="font-semibold">The trade-off: </span>
+                      {data.template_comparison.analysis}
+                    </p>
+                  </div>
                 </div>
               </div>
             )}
@@ -472,7 +519,18 @@ export default function EdgeReportPage() {
                             {pick.opponent} {pick.is_home ? '(H)' : '(A)'}
                           </td>
                           <td className="font-mono text-sm">
-                            {pick.ownership !== null ? `${pick.ownership.toFixed(1)}%` : 'N/A'}
+                            {pick.ownership !== null ? (
+                              <span className={
+                                pick.ownership < 10 ? 'text-green-600 font-semibold' :
+                                pick.ownership < 20 ? 'text-green-500' :
+                                pick.ownership > 50 ? 'text-amber-600' :
+                                'text-text-secondary'
+                              }>
+                                {pick.ownership.toFixed(1)}%
+                              </span>
+                            ) : (
+                              <span className="text-text-muted">N/A</span>
+                            )}
                           </td>
                           <td className="font-mono">{(pick.goal_prob * 100).toFixed(1)}%</td>
                           <td className="font-mono font-semibold text-brand-navy">{pick.expected_pts.toFixed(2)}</td>

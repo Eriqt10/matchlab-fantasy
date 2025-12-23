@@ -1,159 +1,323 @@
 'use client'
 
-import { TrendingUp, Target, Calendar, CheckCircle, XCircle } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { TrendingUp, Target, Calendar, CheckCircle, XCircle, Loader2, Shield } from 'lucide-react'
 
-// TODO: Replace with API fetch from live_tracking.csv
-const MOCK_STATS = {
-  totalPredictions: 147,
-  hitRate: 58.5,
-  roi: 4.2,
-  avgOdds: 2.15,
-  eliteHitRate: 72.4,
-  since: 'Dec 2024',
+// Types matching track_record.json structure
+interface CaptainPickResult {
+  rank: number
+  player: string
+  goals: number
+  assists: number
+  points: number
 }
 
-const MOCK_PREDICTIONS = [
-  { date: '2024-12-20', match: 'Man City vs West Ham', pick: 'Haaland Captain', odds: 1.36, result: 'W', points: 14 },
-  { date: '2024-12-20', match: 'Liverpool vs Spurs', pick: 'Salah Captain', odds: 2.38, result: 'W', points: 16 },
-  { date: '2024-12-20', match: 'Liverpool CS', pick: 'DEF Target', odds: 2.10, result: 'L', points: 0 },
-  { date: '2024-12-14', match: 'Man City vs Everton', pick: 'Haaland Captain', odds: 1.25, result: 'W', points: 10 },
-  { date: '2024-12-14', match: 'Arsenal vs Brighton', pick: 'Saka Captain', odds: 2.80, result: 'L', points: 4 },
-]
+interface CleanSheetResult {
+  rank: number
+  team: string
+  goals_conceded: number
+  clean_sheet: boolean
+}
 
-const TIER_STATS = [
-  { tier: 'ELITE', predictions: 29, hitRate: 72.4, color: 'text-green-600' },
-  { tier: 'HIGH', predictions: 48, hitRate: 62.5, color: 'text-blue-600' },
-  { tier: 'MEDIUM', predictions: 52, hitRate: 51.9, color: 'text-amber-600' },
-  { tier: 'LOW', predictions: 18, hitRate: 38.9, color: 'text-slate-500' },
-]
+interface GameweekData {
+  processed_at: string
+  captain_picks: {
+    picks: CaptainPickResult[]
+    goals_scored: number
+    top3_scored: boolean
+    best_pick_rank: number | null
+  }
+  clean_sheets: {
+    picks: CleanSheetResult[]
+    clean_sheets_kept: number
+    top3_hit: boolean
+    best_pick_rank: number | null
+  }
+}
 
-function StatCard({ icon: Icon, label, value, subtitle }: { icon: any, label: string, value: string, subtitle?: string }) {
+interface TrackRecordData {
+  meta: {
+    last_updated: string
+    total_gameweeks: number
+    start_gameweek: number
+  }
+  summary: {
+    captain_picks: {
+      total_picks: number
+      goals_scored: number
+      goal_rate: number
+      top3_hit_rate: number
+      avg_rank_of_scorer: number | null
+    }
+    clean_sheets: {
+      total_picks: number
+      clean_sheets_kept: number
+      cs_rate: number
+      top3_hit_rate: number
+    }
+  }
+  gameweeks: Record<string, GameweekData>
+}
+
+function StatCard({ icon: Icon, label, value, subtitle }: { icon: React.ElementType, label: string, value: string, subtitle?: string }) {
   return (
     <div className="card p-6">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-10 h-10 bg-brand-primary/10 rounded-lg flex items-center justify-center">
           <Icon className="w-5 h-5 text-brand-primary" />
         </div>
-        <span className="text-sm text-slate-500">{label}</span>
+        <span className="text-sm text-text-secondary">{label}</span>
       </div>
-      <p className="text-3xl font-bold text-slate-900">{value}</p>
-      {subtitle && <p className="text-sm text-slate-500 mt-1">{subtitle}</p>}
+      <p className="text-3xl font-bold text-brand-navy">{value}</p>
+      {subtitle && <p className="text-sm text-text-secondary mt-1">{subtitle}</p>}
     </div>
   )
 }
 
 export default function TrackRecordPage() {
+  const [data, setData] = useState<TrackRecordData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Try GitHub first, fallback to local
+        const githubUrl = 'https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/track_record.json'
+        const localUrl = '/data/track-record.json'
+
+        let response = await fetch(githubUrl, { cache: 'no-store' })
+
+        if (!response.ok) {
+          response = await fetch(localUrl)
+        }
+
+        if (!response.ok) {
+          throw new Error('Failed to load track record')
+        }
+
+        const jsonData = await response.json()
+        setData(jsonData)
+      } catch (err) {
+        console.error('Failed to fetch track record:', err)
+        setError('Failed to load track record data.')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-surface-secondary py-8 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-brand-primary animate-spin" />
+        <span className="ml-3 text-text-secondary">Loading track record...</span>
+      </div>
+    )
+  }
+
+  if (error || !data) {
+    return (
+      <div className="min-h-screen bg-surface-secondary py-8">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+            <p className="text-red-800">{error || 'No data available'}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Get all gameweeks sorted by number (most recent first)
+  const gameweekKeys = Object.keys(data.gameweeks).sort((a, b) => {
+    const numA = parseInt(a.replace('gw', ''))
+    const numB = parseInt(b.replace('gw', ''))
+    return numB - numA
+  })
+
   return (
-    <div className="min-h-screen bg-slate-50 py-8">
+    <div className="min-h-screen bg-surface-secondary py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">Track Record</h1>
-          <p className="text-slate-500 text-sm mt-1">
+          <h1 className="text-2xl font-bold text-brand-navy">Track Record</h1>
+          <p className="text-text-secondary text-sm mt-1">
             Full transparency on our predictions. Updated after each gameweek.
+          </p>
+          <p className="text-xs text-text-muted mt-2">
+            Last updated: {new Date(data.meta.last_updated).toLocaleDateString('en-US', {
+              month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+            })}
           </p>
         </div>
 
-        {/* Stats Grid */}
+        {/* Summary Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard
             icon={Target}
-            label="Total Predictions"
-            value={MOCK_STATS.totalPredictions.toString()}
-            subtitle={`Since ${MOCK_STATS.since}`}
-          />
-          <StatCard
-            icon={CheckCircle}
-            label="Overall Hit Rate"
-            value={`${MOCK_STATS.hitRate}%`}
+            label="Captain Picks"
+            value={data.summary.captain_picks.total_picks.toString()}
+            subtitle={`${data.summary.captain_picks.goals_scored} scored`}
           />
           <StatCard
             icon={TrendingUp}
-            label="Simulated ROI"
-            value={`+${MOCK_STATS.roi}%`}
-            subtitle={`@ ${MOCK_STATS.avgOdds} avg odds`}
+            label="Captain Goal Rate"
+            value={`${(data.summary.captain_picks.goal_rate * 100).toFixed(1)}%`}
+            subtitle="Anytime scorer hit rate"
           />
           <StatCard
-            icon={Target}
-            label="ELITE Tier Hit Rate"
-            value={`${MOCK_STATS.eliteHitRate}%`}
-            subtitle="Highest confidence picks"
+            icon={Shield}
+            label="Clean Sheet Picks"
+            value={data.summary.clean_sheets.total_picks.toString()}
+            subtitle={`${data.summary.clean_sheets.clean_sheets_kept} kept`}
+          />
+          <StatCard
+            icon={CheckCircle}
+            label="CS Rate"
+            value={`${(data.summary.clean_sheets.cs_rate * 100).toFixed(1)}%`}
+            subtitle="Clean sheet hit rate"
           />
         </div>
 
-        {/* Performance by Tier */}
+        {/* Top 3 Performance */}
         <div className="card mb-8">
           <div className="card-header">
-            <h2 className="font-semibold text-slate-900">Performance by Confidence Tier</h2>
+            <h2 className="font-semibold text-brand-navy">Top 3 Pick Performance</h2>
           </div>
           <div className="card-body">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {TIER_STATS.map((tier) => (
-                <div key={tier.tier} className="text-center p-4 bg-slate-50 rounded-lg">
-                  <p className={`text-sm font-semibold ${tier.color}`}>{tier.tier}</p>
-                  <p className="text-2xl font-bold text-slate-900 mt-2">{tier.hitRate}%</p>
-                  <p className="text-xs text-slate-500">{tier.predictions} predictions</p>
-                </div>
-              ))}
+            <div className="grid grid-cols-2 gap-6">
+              <div className="text-center p-4 bg-surface-secondary rounded-lg">
+                <p className="text-sm text-text-secondary mb-2">Captain Top 3 Hit Rate</p>
+                <p className="text-3xl font-bold text-brand-primary">
+                  {(data.summary.captain_picks.top3_hit_rate * 100).toFixed(0)}%
+                </p>
+                <p className="text-xs text-text-muted mt-1">At least one top 3 pick scored</p>
+              </div>
+              <div className="text-center p-4 bg-surface-secondary rounded-lg">
+                <p className="text-sm text-text-secondary mb-2">CS Top 3 Hit Rate</p>
+                <p className="text-3xl font-bold text-brand-primary">
+                  {(data.summary.clean_sheets.top3_hit_rate * 100).toFixed(0)}%
+                </p>
+                <p className="text-xs text-text-muted mt-1">At least one top 3 kept CS</p>
+              </div>
             </div>
-            <p className="text-xs text-slate-500 mt-4 text-center">
-              Higher confidence tiers show higher hit rates, validating the signal quality.
-            </p>
           </div>
         </div>
 
-        {/* Recent Predictions */}
-        <div className="card">
-          <div className="card-header flex items-center justify-between">
-            <h2 className="font-semibold text-slate-900">Recent Predictions</h2>
-            <span className="text-xs text-slate-500">Last 5 shown</span>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Match</th>
-                  <th>Pick</th>
-                  <th>Odds</th>
-                  <th>Result</th>
-                  <th>FPL Pts</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MOCK_PREDICTIONS.map((pred, i) => (
-                  <tr key={i}>
-                    <td className="text-slate-500 text-sm">{pred.date}</td>
-                    <td className="font-medium text-slate-900">{pred.match}</td>
-                    <td className="text-sm">{pred.pick}</td>
-                    <td className="font-mono">{pred.odds.toFixed(2)}</td>
-                    <td>
-                      {pred.result === 'W' ? (
-                        <span className="inline-flex items-center gap-1 text-green-600">
-                          <CheckCircle className="w-4 h-4" /> Win
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-red-500">
-                          <XCircle className="w-4 h-4" /> Miss
-                        </span>
-                      )}
-                    </td>
-                    <td className="font-mono font-semibold">{pred.points}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        {/* Gameweek Breakdown */}
+        {gameweekKeys.map((gwKey) => {
+          const gw = data.gameweeks[gwKey]
+          const gwNum = gwKey.replace('gw', '').toUpperCase()
+
+          return (
+            <div key={gwKey} className="card mb-6">
+              <div className="card-header flex items-center justify-between">
+                <h2 className="font-semibold text-brand-navy">GW{gwNum} Results</h2>
+                <span className="text-xs text-text-muted">
+                  {new Date(gw.processed_at).toLocaleDateString()}
+                </span>
+              </div>
+
+              <div className="card-body">
+                {/* Captain Picks */}
+                <div className="mb-6">
+                  <h3 className="text-sm font-medium text-text-secondary mb-3 flex items-center gap-2">
+                    <Target className="w-4 h-4" />
+                    Captain Picks ({gw.captain_picks.goals_scored} of {gw.captain_picks.picks.length} scored)
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="data-table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Player</th>
+                          <th>Goals</th>
+                          <th>Assists</th>
+                          <th>FPL Pts</th>
+                          <th>Result</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gw.captain_picks.picks.map((pick) => (
+                          <tr key={`${gwKey}-cap-${pick.rank}`}>
+                            <td className="font-mono text-text-muted">{pick.rank}</td>
+                            <td className="font-medium text-brand-navy">{pick.player}</td>
+                            <td className="font-mono">{pick.goals}</td>
+                            <td className="font-mono">{pick.assists}</td>
+                            <td className="font-mono font-semibold">{pick.points}</td>
+                            <td>
+                              {pick.goals > 0 ? (
+                                <span className="inline-flex items-center gap-1 text-green-600">
+                                  <CheckCircle className="w-4 h-4" /> Hit
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-text-muted">
+                                  <XCircle className="w-4 h-4" /> Miss
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Clean Sheet Picks */}
+                <div>
+                  <h3 className="text-sm font-medium text-text-secondary mb-3 flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    Clean Sheet Picks ({gw.clean_sheets.clean_sheets_kept} of {gw.clean_sheets.picks.length} kept)
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="data-table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Team</th>
+                          <th>Goals Conceded</th>
+                          <th>Result</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {gw.clean_sheets.picks.map((pick) => (
+                          <tr key={`${gwKey}-cs-${pick.rank}`}>
+                            <td className="font-mono text-text-muted">{pick.rank}</td>
+                            <td className="font-medium text-brand-navy">{pick.team}</td>
+                            <td className="font-mono">{pick.goals_conceded}</td>
+                            <td>
+                              {pick.clean_sheet ? (
+                                <span className="inline-flex items-center gap-1 text-green-600">
+                                  <CheckCircle className="w-4 h-4" /> CS
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-text-muted">
+                                  <XCircle className="w-4 h-4" /> Conceded
+                                </span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
 
         {/* Transparency Note */}
-        <div className="mt-8 p-4 bg-white rounded-lg border border-slate-200 text-sm text-slate-600">
-          <p className="font-medium text-slate-900 mb-2">About Our Track Record</p>
+        <div className="mt-8 p-4 bg-white rounded-lg border border-brand-cream-dark text-sm text-text-secondary">
+          <p className="font-medium text-brand-navy mb-2">About Our Track Record</p>
           <ul className="list-disc list-inside space-y-1">
-            <li>All predictions logged BEFORE deadline (we're building toward blockchain verification)</li>
-            <li>"Hit" = captain scored OR clean sheet kept, depending on pick type</li>
-            <li>ROI calculated using representative odds at time of prediction</li>
+            <li>All predictions logged BEFORE deadline using Goalserve odds data</li>
+            <li>Captain "Hit" = player scored at least one goal</li>
+            <li>Clean Sheet "Hit" = team kept a clean sheet</li>
             <li>No cherry-picking: every prediction we publish is tracked here</li>
+            <li>Tracking started GW{data.meta.start_gameweek} ({data.meta.total_gameweeks} gameweek{data.meta.total_gameweeks !== 1 ? 's' : ''} tracked)</li>
           </ul>
         </div>
       </div>
