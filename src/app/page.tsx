@@ -31,11 +31,15 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-cream tracking-tight leading-tight">
-              What bookmakers know
-              <span className="block text-brand-primary mt-2">that FPL managers don't</span>
+              Stop Guessing.
+              <span className="block text-brand-primary mt-2">Start Knowing.</span>
             </h1>
 
             <p className="mt-6 text-lg sm:text-xl text-brand-cream/80 leading-relaxed">
+              What bookmakers know that FPL managers don't.
+            </p>
+
+            <p className="mt-3 text-base text-brand-cream/60 leading-relaxed">
               Captain picks and clean sheet predictions powered by real betting odds.
               Sharp money moves before team news breaks.
             </p>

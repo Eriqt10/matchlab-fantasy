@@ -249,7 +249,7 @@ export default function EdgeReportPage() {
           <div>
             <h1 className="text-2xl font-bold text-brand-navy">FPL Edge Report</h1>
             <p className="text-text-secondary text-sm mt-1">
-              What bookmakers know that FPL managers don't
+              Stop guessing. Start knowing.
             </p>
             {data?.meta && (
               <div className="flex items-center gap-2 mt-2 text-xs text-text-muted">
