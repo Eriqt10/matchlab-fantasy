@@ -206,7 +206,9 @@ export default function EdgeReportPage() {
       // Load gameweek-specific JSON files
       // Try fetching from GitHub raw URL first (auto-updated by GitHub Actions)
       // Falls back to local static file if GitHub fetch fails
-      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json`
+      // Cache-buster ensures we bypass GitHub's CDN cache (5-10 min TTL)
+      const cacheBuster = Date.now()
+      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json?cb=${cacheBuster}`
       const localUrl = `/data/edge-report-${selectedGW}.json`
 
       let response = await fetch(githubUrl, { cache: 'no-store' })
@@ -225,7 +227,7 @@ export default function EdgeReportPage() {
       setData(jsonData)
     } catch (err) {
       console.error('Failed to fetch edge report:', err)
-      setError(`Failed to load data for MW${selectedGW.replace('gw', '')}. Data may not be available yet.`)
+      setError(`Failed to load data for Matchweek ${selectedGW.replace('gw', '')}. Data may not be available yet.`)
     } finally {
       setIsLoading(false)
     }
