@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2025-12-24T02:43:52.462587+00:00",
+    "generated_at": "2025-12-24T15:23:49.504770+00:00",
     "gameweek": 18,
     "gameweek_id": "gw18",
     "deadline": "2025-12-26T11:30:00Z",
@@ -253,7 +253,7 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 13.9,
+      "ownership": 13.8,
       "differential_score": 0.356,
       "is_differential": true,
       "form": 2.8,
@@ -266,7 +266,7 @@
       "fixture": "Crystal Palace (H) vs Tottenham",
       "odds_display": "2.20",
       "prob_display": "41.3%",
-      "ownership_display": "13.9%"
+      "ownership_display": "13.8%"
     },
     {
       "rank": 12,
@@ -317,8 +317,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 31.9,
-      "differential_score": 0.269,
+      "ownership": 31.5,
+      "differential_score": 0.271,
       "is_differential": false,
       "form": 4.0,
       "price": 7.1,
@@ -330,7 +330,7 @@
       "fixture": "Brentford (H) vs Bournemouth",
       "odds_display": "2.30",
       "prob_display": "39.5%",
-      "ownership_display": "31.9%"
+      "ownership_display": "31.5%"
     },
     {
       "rank": 14,
@@ -415,7 +415,7 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 13.9,
+      "ownership": 13.8,
       "differential_score": 0.356,
       "is_differential": true,
       "form": 2.8,
@@ -428,7 +428,7 @@
       "fixture": "Crystal Palace (H) vs Tottenham",
       "odds_display": "2.20",
       "prob_display": "41.3%",
-      "ownership_display": "13.9%"
+      "ownership_display": "13.8%"
     },
     {
       "rank": 12,
@@ -771,7 +771,17 @@
       "cohesion_display": "67%"
     }
   ],
-  "buzz_alerts": [],
+  "buzz_alerts": [
+    {
+      "player": "Bukayo Saka",
+      "team": "Arsenal",
+      "status": "caution",
+      "news_count": 1,
+      "multiplier": 0.9,
+      "latest_news": "‘This is something he is never going to forget’: Arsenal stars bring festive joy to Great Ormond Str",
+      "signals": []
+    }
+  ],
   "availability_warnings": [
     {
       "player": "Mohamed Salah",
@@ -806,7 +816,7 @@
       "status": "unavailable",
       "chance_of_playing": 0,
       "news": "On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date",
-      "ownership": 11.9,
+      "ownership": 11.8,
       "concern": "UNAVAILABLE: On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date"
     }
   ],
