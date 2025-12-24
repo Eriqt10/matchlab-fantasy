@@ -254,7 +254,7 @@ export default function EdgeReportPage() {
                 <Clock className="w-3 h-3" />
                 <span>Updated {formatTimeAgo(data.meta.generated_at)}</span>
                 <span className="text-brand-cream-dark">•</span>
-                <span>MW{data.meta.gameweek}</span>
+                <span>Matchweek {data.meta.gameweek}</span>
               </div>
             )}
           </div>
