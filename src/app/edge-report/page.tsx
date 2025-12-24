@@ -111,10 +111,10 @@ interface EdgeReportData {
   errors: string[]
 }
 
-// Only show gameweeks with available data
-const GAMEWEEKS = [
-  { id: 'gw17', label: 'GW17 (Dec 20-22)' },
-  { id: 'gw18', label: 'GW18 (Dec 26-28)' },
+// Only show matchweeks with available data
+const MATCHWEEKS = [
+  { id: 'gw17', label: 'MW17 (Dec 20-22)' },
+  { id: 'gw18', label: 'MW18 (Dec 26-28)' },
 ]
 
 function ConfidenceBadge({ level }: { level: string }) {
@@ -225,7 +225,7 @@ export default function EdgeReportPage() {
       setData(jsonData)
     } catch (err) {
       console.error('Failed to fetch edge report:', err)
-      setError(`Failed to load data for ${selectedGW.toUpperCase()}. Data may not be available yet.`)
+      setError(`Failed to load data for MW${selectedGW.replace('gw', '')}. Data may not be available yet.`)
     } finally {
       setIsLoading(false)
     }
@@ -254,7 +254,7 @@ export default function EdgeReportPage() {
                 <Clock className="w-3 h-3" />
                 <span>Updated {formatTimeAgo(data.meta.generated_at)}</span>
                 <span className="text-brand-cream-dark">•</span>
-                <span>GW{data.meta.gameweek}</span>
+                <span>MW{data.meta.gameweek}</span>
               </div>
             )}
           </div>
@@ -266,7 +266,7 @@ export default function EdgeReportPage() {
               onChange={(e) => setSelectedGW(e.target.value)}
               className="px-4 py-2 bg-white border border-brand-cream-dark rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
             >
-              {GAMEWEEKS.map((gw) => (
+              {MATCHWEEKS.map((gw) => (
                 <option key={gw.id} value={gw.id}>
                   {gw.label}
                 </option>

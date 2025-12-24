@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2025-12-23T13:46:27.884391+00:00",
+    "generated_at": "2025-12-24T02:43:52.462587+00:00",
     "gameweek": 18,
     "gameweek_id": "gw18",
     "deadline": "2025-12-26T11:30:00Z",
@@ -8,71 +8,6 @@
     "data_source": "Goalserve odds data"
   },
   "captain_picks": [
-    {
-      "rank": 1,
-      "player": "Mohamed Salah",
-      "team": "Liverpool",
-      "opponent": "Wolves",
-      "match_date": "27.12.2025",
-      "is_home": true,
-      "best_odds": 1.8,
-      "goal_prob": 0.5051,
-      "bookmaker": "bet365",
-      "position": "MID",
-      "expected_pts": 2.53,
-      "confidence": "ELITE",
-      "signals": [
-        "Strong favorite - High goal expectation",
-        "Midfielder - 5pts per goal (vs 4 for FWD)",
-        "Home fixture"
-      ],
-      "ownership": 15.2,
-      "differential_score": 0.428,
-      "is_differential": true,
-      "form": 1.6,
-      "price": 14.0,
-      "status": "unavailable",
-      "status_code": "n",
-      "chance_of_playing": 0,
-      "news": "On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date",
-      "is_available": false,
-      "fixture": "Liverpool (H) vs Wolves",
-      "odds_display": "1.80",
-      "prob_display": "50.5%",
-      "ownership_display": "15.2%"
-    },
-    {
-      "rank": 2,
-      "player": "Alexander Isak",
-      "team": "Liverpool",
-      "opponent": "Wolves",
-      "match_date": "27.12.2025",
-      "is_home": true,
-      "best_odds": 1.73,
-      "goal_prob": 0.5255,
-      "bookmaker": "bet365",
-      "position": "FWD",
-      "expected_pts": 2.1,
-      "confidence": "ELITE",
-      "signals": [
-        "Strong favorite - High goal expectation",
-        "Home fixture"
-      ],
-      "ownership": 4.1,
-      "differential_score": 0.504,
-      "is_differential": true,
-      "form": 3.4,
-      "price": 10.3,
-      "status": "injured",
-      "status_code": "i",
-      "chance_of_playing": 0,
-      "news": "Ankle injury - Unknown return date",
-      "is_available": false,
-      "fixture": "Liverpool (H) vs Wolves",
-      "odds_display": "1.73",
-      "prob_display": "52.5%",
-      "ownership_display": "4.1%"
-    },
     {
       "rank": 3,
       "player": "Erling Haaland",
@@ -138,39 +73,6 @@
       "ownership_display": "N/A"
     },
     {
-      "rank": 5,
-      "player": "Jayden Danns",
-      "team": "Liverpool",
-      "opponent": "Wolves",
-      "match_date": "27.12.2025",
-      "is_home": true,
-      "best_odds": 2.2,
-      "goal_prob": 0.4132,
-      "bookmaker": "bet365",
-      "position": "MID",
-      "expected_pts": 2.07,
-      "confidence": "HIGH",
-      "signals": [
-        "Good odds - Solid goal threat",
-        "Midfielder - 5pts per goal (vs 4 for FWD)",
-        "Home fixture"
-      ],
-      "ownership": 0.1,
-      "differential_score": 0.413,
-      "is_differential": true,
-      "form": 0.0,
-      "price": 4.3,
-      "status": "injured",
-      "status_code": "i",
-      "chance_of_playing": 0,
-      "news": "Hamstring injury - Unknown return date",
-      "is_available": false,
-      "fixture": "Liverpool (H) vs Wolves",
-      "odds_display": "2.20",
-      "prob_display": "41.3%",
-      "ownership_display": "0.1%"
-    },
-    {
       "rank": 6,
       "player": "Cody Gakpo",
       "team": "Liverpool",
@@ -188,20 +90,20 @@
         "Midfielder - 5pts per goal (vs 4 for FWD)",
         "Home fixture"
       ],
-      "ownership": 5.5,
+      "ownership": 5.4,
       "differential_score": 0.344,
       "is_differential": true,
       "form": 3.4,
       "price": 7.3,
-      "status": "injured",
-      "status_code": "i",
-      "chance_of_playing": 0,
-      "news": "Muscle injury - Unknown return date",
-      "is_available": false,
+      "status": "doubtful",
+      "status_code": "d",
+      "chance_of_playing": 50,
+      "news": "Muscle injury - 50% chance of playing",
+      "is_available": true,
       "fixture": "Liverpool (H) vs Wolves",
       "odds_display": "2.50",
       "prob_display": "36.4%",
-      "ownership_display": "5.5%"
+      "ownership_display": "5.4%"
     },
     {
       "rank": 7,
@@ -286,10 +188,10 @@
         "Midfielder - 5pts per goal (vs 4 for FWD)",
         "Home fixture"
       ],
-      "ownership": 22.3,
+      "ownership": 22.2,
       "differential_score": 0.272,
       "is_differential": true,
-      "form": 5.5,
+      "form": 5.8,
       "price": 10.3,
       "status": "available",
       "status_code": "a",
@@ -299,7 +201,7 @@
       "fixture": "Arsenal (H) vs Brighton",
       "odds_display": "2.60",
       "prob_display": "35.0%",
-      "ownership_display": "22.3%"
+      "ownership_display": "22.2%"
     },
     {
       "rank": 10,
@@ -351,8 +253,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 14.1,
-      "differential_score": 0.355,
+      "ownership": 13.9,
+      "differential_score": 0.356,
       "is_differential": true,
       "form": 2.8,
       "price": 7.7,
@@ -364,7 +266,7 @@
       "fixture": "Crystal Palace (H) vs Tottenham",
       "odds_display": "2.20",
       "prob_display": "41.3%",
-      "ownership_display": "14.1%"
+      "ownership_display": "13.9%"
     },
     {
       "rank": 12,
@@ -383,8 +285,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 12.6,
-      "differential_score": 0.353,
+      "ownership": 12.5,
+      "differential_score": 0.354,
       "is_differential": true,
       "form": 0.0,
       "price": 6.2,
@@ -396,7 +298,7 @@
       "fixture": "Arsenal (H) vs Brighton",
       "odds_display": "2.25",
       "prob_display": "40.4%",
-      "ownership_display": "12.6%"
+      "ownership_display": "12.5%"
     },
     {
       "rank": 13,
@@ -415,8 +317,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 32.4,
-      "differential_score": 0.267,
+      "ownership": 31.9,
+      "differential_score": 0.269,
       "is_differential": false,
       "form": 4.0,
       "price": 7.1,
@@ -428,7 +330,7 @@
       "fixture": "Brentford (H) vs Bournemouth",
       "odds_display": "2.30",
       "prob_display": "39.5%",
-      "ownership_display": "32.4%"
+      "ownership_display": "31.9%"
     },
     {
       "rank": 14,
@@ -461,39 +363,6 @@
       "odds_display": "2.38",
       "prob_display": "38.2%",
       "ownership_display": "3.1%"
-    },
-    {
-      "rank": 15,
-      "player": "Bryan Mbeumo",
-      "team": "Manchester Utd",
-      "opponent": "Newcastle",
-      "match_date": "26.12.2025",
-      "is_home": true,
-      "best_odds": 2.88,
-      "goal_prob": 0.3157,
-      "bookmaker": "bet365",
-      "position": "MID",
-      "expected_pts": 1.58,
-      "confidence": "MEDIUM",
-      "signals": [
-        "Moderate odds - Decent chance",
-        "Midfielder - 5pts per goal (vs 4 for FWD)",
-        "Home fixture"
-      ],
-      "ownership": 12.0,
-      "differential_score": 0.278,
-      "is_differential": true,
-      "form": 2.3,
-      "price": 8.1,
-      "status": "unavailable",
-      "status_code": "n",
-      "chance_of_playing": 0,
-      "news": "On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date",
-      "is_available": false,
-      "fixture": "Manchester Utd (H) vs Newcastle",
-      "odds_display": "2.88",
-      "prob_display": "31.6%",
-      "ownership_display": "12.0%"
     }
   ],
   "differentials": [
@@ -546,8 +415,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 14.1,
-      "differential_score": 0.355,
+      "ownership": 13.9,
+      "differential_score": 0.356,
       "is_differential": true,
       "form": 2.8,
       "price": 7.7,
@@ -559,7 +428,7 @@
       "fixture": "Crystal Palace (H) vs Tottenham",
       "odds_display": "2.20",
       "prob_display": "41.3%",
-      "ownership_display": "14.1%"
+      "ownership_display": "13.9%"
     },
     {
       "rank": 12,
@@ -578,8 +447,8 @@
         "Good odds - Solid goal threat",
         "Home fixture"
       ],
-      "ownership": 12.6,
-      "differential_score": 0.353,
+      "ownership": 12.5,
+      "differential_score": 0.354,
       "is_differential": true,
       "form": 0.0,
       "price": 6.2,
@@ -591,7 +460,7 @@
       "fixture": "Arsenal (H) vs Brighton",
       "odds_display": "2.25",
       "prob_display": "40.4%",
-      "ownership_display": "12.6%"
+      "ownership_display": "12.5%"
     },
     {
       "rank": 10,
@@ -627,10 +496,10 @@
       "ownership_display": "0.3%"
     },
     {
-      "rank": 7,
-      "player": "Cole Palmer",
-      "team": "Chelsea",
-      "opponent": "Aston Villa",
+      "rank": 6,
+      "player": "Cody Gakpo",
+      "team": "Liverpool",
+      "opponent": "Wolves",
       "match_date": "27.12.2025",
       "is_home": true,
       "best_odds": 2.5,
@@ -644,20 +513,20 @@
         "Midfielder - 5pts per goal (vs 4 for FWD)",
         "Home fixture"
       ],
-      "ownership": 11.4,
-      "differential_score": 0.322,
+      "ownership": 5.4,
+      "differential_score": 0.344,
       "is_differential": true,
-      "form": 2.6,
-      "price": 10.4,
-      "status": "available",
-      "status_code": "a",
-      "chance_of_playing": 100,
-      "news": null,
+      "form": 3.4,
+      "price": 7.3,
+      "status": "doubtful",
+      "status_code": "d",
+      "chance_of_playing": 50,
+      "news": "Muscle injury - 50% chance of playing",
       "is_available": true,
-      "fixture": "Chelsea (H) vs Aston Villa",
+      "fixture": "Liverpool (H) vs Wolves",
       "odds_display": "2.50",
       "prob_display": "36.4%",
-      "ownership_display": "11.4%"
+      "ownership_display": "5.4%"
     }
   ],
   "clean_sheets": [
@@ -902,30 +771,7 @@
       "cohesion_display": "67%"
     }
   ],
-  "buzz_alerts": [
-    {
-      "player": "Mohamed Salah",
-      "team": "Liverpool",
-      "status": "caution",
-      "news_count": 4,
-      "multiplier": 0.9,
-      "latest_news": "Salah scores late winner in Egypt's AFCON opener",
-      "signals": []
-    },
-    {
-      "player": "Alexander Isak",
-      "team": "Liverpool",
-      "status": "caution",
-      "news_count": 5,
-      "multiplier": 0.86,
-      "latest_news": "Slot frustrated as Liverpool set to lose Isak for 'long time'",
-      "signals": [
-        "injury_hint",
-        "injury_hint",
-        "injury_hint"
-      ]
-    }
-  ],
+  "buzz_alerts": [],
   "availability_warnings": [
     {
       "player": "Mohamed Salah",
@@ -939,11 +785,11 @@
     {
       "player": "Cody Gakpo",
       "team": "Liverpool",
-      "status": "injured",
-      "chance_of_playing": 0,
-      "news": "Muscle injury - Unknown return date",
-      "ownership": 5.5,
-      "concern": "INJURED: Muscle injury - Unknown return date"
+      "status": "doubtful",
+      "chance_of_playing": 50,
+      "news": "Muscle injury - 50% chance of playing",
+      "ownership": 5.4,
+      "concern": "DOUBTFUL (50%): Muscle injury - 50% chance of playing"
     },
     {
       "player": "Gabriel Jesus",
@@ -951,7 +797,7 @@
       "status": "doubtful",
       "chance_of_playing": 25,
       "news": "Thigh injury - 25% chance of playing",
-      "ownership": 12.6,
+      "ownership": 12.5,
       "concern": "DOUBTFUL (25%): Thigh injury - 25% chance of playing"
     },
     {
@@ -960,7 +806,7 @@
       "status": "unavailable",
       "chance_of_playing": 0,
       "news": "On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date",
-      "ownership": 12.0,
+      "ownership": 11.9,
       "concern": "UNAVAILABLE: On international duty at the Africa Cup of Nations from Gameweek 17 onwards. - Unknown return date"
     }
   ],
