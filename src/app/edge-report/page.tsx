@@ -204,19 +204,10 @@ export default function EdgeReportPage() {
     setError(null)
 
     try {
-      // Load gameweek-specific JSON files
-      // Try fetching from GitHub raw URL first (auto-updated by GitHub Actions)
-      // Falls back to local static file if GitHub fetch fails
-      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json`
-      const localUrl = `/data/edge-report-${selectedGW}.json`
+      // Load gameweek-specific JSON files from public/reports folder
+      const reportUrl = `/reports/edge-report-${selectedGW}.json`
 
-      let response = await fetch(githubUrl, { cache: 'no-store' })
-
-      // Fallback to local if GitHub fails
-      if (!response.ok) {
-        console.log('GitHub fetch failed, trying local fallback')
-        response = await fetch(localUrl)
-      }
+      const response = await fetch(reportUrl, { cache: 'no-store' })
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`)

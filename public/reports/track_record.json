@@ -1,0 +1,468 @@
+{
+  "meta": {
+    "last_updated": "2025-12-30T08:14:51.920711Z",
+    "total_gameweeks": 2,
+    "start_gameweek": 17
+  },
+  "summary": {
+    "captain_picks": {
+      "total_picks": 8,
+      "goals_scored": 3,
+      "goal_rate": 0.42857142857142855,
+      "top3_hit_rate": 0.5,
+      "avg_rank_of_scorer": null,
+      "players_evaluated": 7,
+      "players_unavailable": 1
+    },
+    "clean_sheets": {
+      "total_picks": 30,
+      "clean_sheets_kept": 8,
+      "cs_rate": 0.26666666666666666,
+      "top3_hit_rate": 1.0
+    }
+  },
+  "gameweeks": {
+    "gw17": {
+      "processed_at": "2025-12-23T13:51:48.004719Z",
+      "captain_picks": {
+        "picks": [
+          {
+            "rank": 1,
+            "player": "Erling Haaland",
+            "goals": 2,
+            "assists": 1,
+            "points": 16,
+            "scored": true
+          },
+          {
+            "rank": 2,
+            "player": "Divine Mukasa",
+            "goals": 0,
+            "assists": 0,
+            "points": 1,
+            "scored": false
+          },
+          {
+            "rank": 3,
+            "player": "Phil Foden",
+            "goals": 0,
+            "assists": 0,
+            "points": 3,
+            "scored": false
+          },
+          {
+            "rank": 4,
+            "player": "Antoine Semenyo",
+            "goals": 1,
+            "assists": 0,
+            "points": 10,
+            "scored": true
+          },
+          {
+            "rank": 5,
+            "player": "Omar Marmoush",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "scored": false
+          },
+          {
+            "rank": 6,
+            "player": "Mohamed Salah",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "scored": false
+          },
+          {
+            "rank": 7,
+            "player": "Eli Junior Kroupi",
+            "goals": null,
+            "assists": null,
+            "points": null,
+            "scored": null,
+            "error": "Player not found in FPL data"
+          },
+          {
+            "rank": 8,
+            "player": "Ollie Watkins",
+            "goals": 0,
+            "assists": 1,
+            "points": 5,
+            "scored": false
+          },
+          {
+            "rank": 9,
+            "player": "Evanilson",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "scored": false
+          },
+          {
+            "rank": 10,
+            "player": "Danny Welbeck",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "scored": false
+          },
+          {
+            "rank": 11,
+            "player": "Enes Unal",
+            "goals": null,
+            "assists": null,
+            "points": null,
+            "scored": null,
+            "error": "Player not found in FPL data"
+          },
+          {
+            "rank": 12,
+            "player": "Alexander Isak",
+            "goals": 1,
+            "assists": 0,
+            "points": 6,
+            "scored": true
+          },
+          {
+            "rank": 13,
+            "player": "Hugo Ekitike",
+            "goals": null,
+            "assists": null,
+            "points": null,
+            "scored": null,
+            "error": "Player not found in FPL data"
+          },
+          {
+            "rank": 14,
+            "player": "Cole Palmer",
+            "goals": 0,
+            "assists": 1,
+            "points": 5,
+            "scored": false
+          },
+          {
+            "rank": 15,
+            "player": "Igor Thiago",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "scored": false
+          }
+        ],
+        "goals_scored": 3,
+        "top3_scored": true,
+        "best_pick_rank": 1
+      },
+      "clean_sheets": {
+        "picks": [
+          {
+            "rank": 1,
+            "team": "Arsenal",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 2,
+            "team": "Manchester City",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 3,
+            "team": "Bournemouth",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 4,
+            "team": "Brighton",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 5,
+            "team": "Brentford",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 6,
+            "team": "Fulham",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 7,
+            "team": "Crystal Palace",
+            "goals_conceded": 4,
+            "clean_sheet": false
+          },
+          {
+            "rank": 8,
+            "team": "Leeds",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 9,
+            "team": "Liverpool",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 10,
+            "team": "Aston Villa",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 11,
+            "team": "Nottingham",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 12,
+            "team": "Chelsea",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 13,
+            "team": "Newcastle",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 14,
+            "team": "Wolves",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 15,
+            "team": "Manchester Utd",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          }
+        ],
+        "clean_sheets_kept": 4,
+        "top3_hit": true,
+        "best_pick_rank": 1
+      }
+    },
+    "gw18": {
+      "processed_at": "2025-12-30T08:14:51.920693Z",
+      "captain_picks": {
+        "picks": [
+          {
+            "rank": 1,
+            "player": "Erling Haaland",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "minutes": 90,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 2,
+            "player": "Hugo Ekitike",
+            "goals": null,
+            "assists": null,
+            "points": null,
+            "minutes": null,
+            "scored": null,
+            "played": null,
+            "error": "Player not found in FPL data"
+          },
+          {
+            "rank": 3,
+            "player": "Cole Palmer",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "minutes": 71,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 4,
+            "player": "Viktor Gyokeres",
+            "goals": null,
+            "assists": null,
+            "points": null,
+            "minutes": null,
+            "scored": null,
+            "played": null,
+            "error": "Player not found in FPL data"
+          },
+          {
+            "rank": 5,
+            "player": "Federico Chiesa",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "minutes": 60,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 6,
+            "player": "Bukayo Saka",
+            "goals": 0,
+            "assists": 1,
+            "points": 7,
+            "minutes": 90,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 7,
+            "player": "Igor Thiago",
+            "goals": 0,
+            "assists": 1,
+            "points": 5,
+            "minutes": 90,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 8,
+            "player": "Jean-Philippe Mateta",
+            "goals": 0,
+            "assists": 0,
+            "points": 2,
+            "minutes": 90,
+            "scored": false,
+            "played": true
+          },
+          {
+            "rank": 9,
+            "player": "Eberechi Eze",
+            "goals": 0,
+            "assists": 0,
+            "points": 0,
+            "minutes": 0,
+            "scored": null,
+            "played": false,
+            "note": "Did not play - excluded from statistics"
+          },
+          {
+            "rank": 10,
+            "player": "Cody Gakpo",
+            "goals": 0,
+            "assists": 0,
+            "points": 1,
+            "minutes": 4,
+            "scored": false,
+            "played": true
+          }
+        ],
+        "goals_scored": 0,
+        "players_who_played": 7,
+        "players_unavailable": 1,
+        "top3_scored": false,
+        "best_pick_rank": null
+      },
+      "clean_sheets": {
+        "picks": [
+          {
+            "rank": 1,
+            "team": "Liverpool",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 2,
+            "team": "Arsenal",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 3,
+            "team": "Everton",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 4,
+            "team": "Manchester City",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 5,
+            "team": "Crystal Palace",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 6,
+            "team": "Chelsea",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 7,
+            "team": "Sunderland",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 8,
+            "team": "Leeds",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 9,
+            "team": "Brentford",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 10,
+            "team": "Fulham",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 11,
+            "team": "Manchester Utd",
+            "goals_conceded": 2,
+            "clean_sheet": false
+          },
+          {
+            "rank": 12,
+            "team": "West Ham",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 13,
+            "team": "Tottenham",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          },
+          {
+            "rank": 14,
+            "team": "Newcastle",
+            "goals_conceded": 1,
+            "clean_sheet": false
+          },
+          {
+            "rank": 15,
+            "team": "Burnley",
+            "goals_conceded": 0,
+            "clean_sheet": true
+          }
+        ],
+        "clean_sheets_kept": 4,
+        "top3_hit": true,
+        "best_pick_rank": 3
+      }
+    }
+  }
+}

@@ -82,15 +82,8 @@ export default function TrackRecordPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Try GitHub first, fallback to local
-        const githubUrl = 'https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/track_record.json'
-        const localUrl = '/data/track-record.json'
-
-        let response = await fetch(githubUrl, { cache: 'no-store' })
-
-        if (!response.ok) {
-          response = await fetch(localUrl)
-        }
+        // Load from public/reports folder
+        const response = await fetch('/reports/track_record.json', { cache: 'no-store' })
 
         if (!response.ok) {
           throw new Error('Failed to load track record')
