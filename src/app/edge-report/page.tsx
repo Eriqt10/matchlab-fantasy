@@ -115,6 +115,7 @@ interface EdgeReportData {
 const MATCHWEEKS = [
   { id: 'gw17', label: 'MW17 (Dec 20-22)' },
   { id: 'gw18', label: 'MW18 (Dec 26-28)' },
+  { id: 'gw19', label: 'MW19 (Dec 30)' },
 ]
 
 function ConfidenceBadge({ level }: { level: string }) {
@@ -193,7 +194,7 @@ function formatTimeAgo(isoString: string): string {
 }
 
 export default function EdgeReportPage() {
-  const [selectedGW, setSelectedGW] = useState('gw18')
+  const [selectedGW, setSelectedGW] = useState('gw19')
   const [data, setData] = useState<EdgeReportData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -206,9 +207,7 @@ export default function EdgeReportPage() {
       // Load gameweek-specific JSON files
       // Try fetching from GitHub raw URL first (auto-updated by GitHub Actions)
       // Falls back to local static file if GitHub fetch fails
-      // Cache-buster ensures we bypass GitHub's CDN cache (5-10 min TTL)
-      const cacheBuster = Date.now()
-      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json?cb=${cacheBuster}`
+      const githubUrl = `https://raw.githubusercontent.com/Eriqt10/MatchLabSports/master/reports/edge-report-${selectedGW}.json`
       const localUrl = `/data/edge-report-${selectedGW}.json`
 
       let response = await fetch(githubUrl, { cache: 'no-store' })
@@ -227,7 +226,7 @@ export default function EdgeReportPage() {
       setData(jsonData)
     } catch (err) {
       console.error('Failed to fetch edge report:', err)
-      setError(`Failed to load data for Matchweek ${selectedGW.replace('gw', '')}. Data may not be available yet.`)
+      setError(`Failed to load data for MW${selectedGW.replace('gw', '')}. Data may not be available yet.`)
     } finally {
       setIsLoading(false)
     }
@@ -249,14 +248,14 @@ export default function EdgeReportPage() {
           <div>
             <h1 className="text-2xl font-bold text-brand-navy">FPL Edge Report</h1>
             <p className="text-text-secondary text-sm mt-1">
-              Stop guessing. Start knowing.
+              What bookmakers know that FPL managers don't
             </p>
             {data?.meta && (
               <div className="flex items-center gap-2 mt-2 text-xs text-text-muted">
                 <Clock className="w-3 h-3" />
                 <span>Updated {formatTimeAgo(data.meta.generated_at)}</span>
                 <span className="text-brand-cream-dark">•</span>
-                <span>Matchweek {data.meta.gameweek}</span>
+                <span>MW{data.meta.gameweek}</span>
               </div>
             )}
           </div>
